@@ -1,13 +1,31 @@
 from rest_framework import serializers  # Importação padrão do DRF
 
-from .models import Produto  # Alteração: Importação do modelo Produto conforme Aula 19
+from .models import Produto  # Importação do modelo Produto
 
 
-# --- AULA 19 & 22: DEFINIÇÃO E VALIDAÇÕES DO SERIALIZER DO PRODUTO ---
+# --- AULA 19, 22 & 26: DEFINIÇÃO E VALIDAÇÕES DO SERIALIZER DO PRODUTO ---
 class ProdutoSerializer(serializers.ModelSerializer):  # Aula 19: Classe serializadora do Produto
+    # Aula 26: Campos declarados explicitamente como obrigatórios
+    marca = serializers.CharField(required=True, max_length=50)
+    estoque = serializers.IntegerField(required=True)  # Aula 26: Estoque inteiro e obrigatório
+
     class Meta:  # Aula 19: Classe interna de metadados do serializer
         model = Produto  # Aula 19: Associação direta com o model Produto
-        fields = "__all__"  # Aula 19: Inclusão de todos os campos do modelo no JSON
+        fields = "__all__"  # Aula 19 & 26: Inclusão de todos os campos do modelo no JSON
+
+    # --- AULA 26: VALIDAÇÕES PERSONALIZADAS (MARCA E ESTOQUE) ---
+    def validate_marca(self, value):  # Aula 26: Método de validação do campo marca
+        marca_limpa = value.strip()
+        if len(marca_limpa) < 2:
+            raise serializers.ValidationError(
+                "A marca deve possuir entre 2 e 50 caracteres."
+            )
+        return marca_limpa
+
+    def validate_estoque(self, value):  # Aula 26: Validação de estoque não negativo
+        if value < 0:
+            raise serializers.ValidationError("O estoque não pode ser negativo.")
+        return value
 
     # --- AULA 22: VALIDAÇÕES PERSONALIZADAS POR CAMPO ---
     def validate_preco(self, value):  # Aula 22: Método de validação específico para o campo 'preco'

@@ -17,7 +17,7 @@ from .serializers import (
 )
 
 
-# --- AULA 19, 20, 23 & 25: IMPLEMENTAÇÃO DA VIEWSET DE PRODUTOS ---
+# --- AULA 19, 20, 23, 25 & 26: IMPLEMENTAÇÃO DA VIEWSET DE PRODUTOS ---
 class ProdutoViewSet(viewsets.ModelViewSet):  # Aula 19: Criação da ViewSet com operações CRUD completas
     queryset = Produto.objects.all()  # Aula 19: Definição da busca de todos os produtos
     serializer_class = ProdutoSerializer  # Aula 19: Associação da ViewSet com o ProdutoSerializer
@@ -25,9 +25,9 @@ class ProdutoViewSet(viewsets.ModelViewSet):  # Aula 19: Criação da ViewSet co
     # --- AULA 25: CONFIGURAÇÃO DE PERMISSÕES ---
     permission_classes = [IsAuthenticatedOrReadOnly]  # Aula 25: Permite leitura para todos e escrita para autenticados
 
-    # --- AULA 23: CONFIGURAÇÃO DE FILTROS, BUSCA E ORDENAÇÃO ---
+    # --- AULA 23 & 26: CONFIGURAÇÃO DE FILTROS, BUSCA E ORDENAÇÃO ---
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]  # Aula 23: Backends de filtro
-    filterset_fields = ['categoria', 'estoque']  # Aula 23: Filtro exato por categoria e estoque
-    search_fields = ['nome', 'descricao']  # Aula 23: Busca parcial por nome e descrição
-    ordering_fields = ['preco', 'nome', 'criado_em']  # Aula 23: Ordenação por preço, nome ou data
+    filterset_fields = ['marca', 'estoque']  # Aula 23 & 26: Filtro exato por marca e estoque
+    search_fields = ['nome', 'marca', 'descricao']  # Aula 23 & 26: Busca parcial por nome, marca e descrição
+    ordering_fields = ['preco', 'nome', 'marca', 'criado_em']  # Aula 23 & 26: Ordenação por preço, nome, marca ou data
     ordering = ['-criado_em']  # Aula 23: Ordenação padrão (mais recentes primeiro)
