@@ -5,9 +5,7 @@ from .models import Produto  # Aula 18: Importação do modelo Produto
 
 # --- AULA 18: REGISTRO DO MODELO NO ADMIN ---
 @admin.register(Produto)  # Aula 18: Decorador para registrar Produto no painel admin
-class ProdutoAdmin(
-    admin.ModelAdmin
-):  # Aula 18: Classe de personalização da interface admin
+class ProdutoAdmin(admin.ModelAdmin):  # Aula 18: Classe de personalização da interface admin
     list_display = (
         "id",
         "nome",
