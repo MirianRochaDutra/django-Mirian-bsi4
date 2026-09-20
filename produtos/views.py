@@ -1,24 +1,33 @@
 from django.shortcuts import render  # Código original do Django
 from django_filters.rest_framework import (
-    DjangoFilterBackend,  # Aula 20: Importação do backend de filtros django-filter
+    DjangoFilterBackend,  # Importação do backend de filtros django-filter
 )
 from rest_framework import viewsets  # Importação padrão do DRF para ViewSets
-from rest_framework.filters import (  # Aula 20: Importação dos filtros de busca e ordenação do DRF
+from rest_framework.filters import (  # Importação dos filtros de busca e ordenação do DRF
     OrderingFilter,
     SearchFilter,
 )
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,  # Aula 25: Permissão de leitura pública e escrita apenas autenticada
+)
 
-from .models import Produto  # Aula 19: Importação do modelo Produto
+from .models import Produto  # Importação do modelo Produto
 from .serializers import (
-    ProdutoSerializer,  # Aula 19: Importação do ProdutoSerializer
+    ProdutoSerializer,  # Importação do ProdutoSerializer
 )
 
 
-# ---  AULA 19 E 20: IMPLEMENTAÇÃO DA VIEWSET DE PRODUTOS COM FILTROS ---
+# --- AULA 19, 20, 23 & 25: IMPLEMENTAÇÃO DA VIEWSET DE PRODUTOS ---
 class ProdutoViewSet(viewsets.ModelViewSet):  # Aula 19: Criação da ViewSet com operações CRUD completas
     queryset = Produto.objects.all()  # Aula 19: Definição da busca de todos os produtos
     serializer_class = ProdutoSerializer  # Aula 19: Associação da ViewSet com o ProdutoSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]  # Aula 20: Habilita backends de filtro, busca e ordenação  # noqa: RUF012
-    filterset_fields = ['estoque']  # Aula 20: Permite filtrar exatamente pelo valor do estoque  # noqa: RUF012
-    search_fields = ['nome', 'descricao']  # Aula 20: Permite busca por texto no nome ou descrição  # noqa: RUF012
-    ordering_fields = ['preco', 'criado_em']  # Aula 20: Permite ordenar listagens por preço ou data de criação  # noqa: RUF012
+
+    # --- AULA 25: CONFIGURAÇÃO DE PERMISSÕES ---
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Aula 25: Permite leitura para todos e escrita para autenticados
+
+    # --- AULA 23: CONFIGURAÇÃO DE FILTROS, BUSCA E ORDENAÇÃO ---
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]  # Aula 23: Backends de filtro
+    filterset_fields = ['categoria', 'estoque']  # Aula 23: Filtro exato por categoria e estoque
+    search_fields = ['nome', 'descricao']  # Aula 23: Busca parcial por nome e descrição
+    ordering_fields = ['preco', 'nome', 'criado_em']  # Aula 23: Ordenação por preço, nome ou data
+    ordering = ['-criado_em']  # Aula 23: Ordenação padrão (mais recentes primeiro)

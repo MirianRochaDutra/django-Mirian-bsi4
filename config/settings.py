@@ -132,17 +132,19 @@ MAILERS = {
     },
 }
 
-# --- CONFIGURAÇÕES DO DRF, SWAGGER E FILTROS (AULA 20) ---
+# --- CONFIGURAÇÕES DO DRF, SWAGGER, FILTROS E PAGINAÇÃO (AULA 20 & 24) ---
 REST_FRAMEWORK = {  # Aula 20: Dicionario de configuracoes do REST Framework 
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # Aula 20: Define o gerador de esquema OpenAPI 
     'DEFAULT_FILTER_BACKENDS': (  # Aula 20: Tupla de backends de filtro padrao 
-        'django_filters.rest_framework.DjangoFilterBackend',  # Alteração: Habilita suporte ao django-filter 
+        'django_filters.rest_framework.DjangoFilterBackend',  # Habilita suporte ao django-filter 
     ),  # Aula 20: Fechamento da tupla de backends 
-}  # Aula 20: Fechamento do dicionario REST_FRAMEWORK 
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # Aula 24: Estilo de paginação por número de página
+    'PAGE_SIZE': 5,  # Aula 24: Limite de 5 resultados por página
+}  # Aula 20 & 24: Fechamento do dicionario REST_FRAMEWORK 
 
 SPECTACULAR_SETTINGS = {  # Aula 20: Dicionario de informacoes da documentacao Swagger 
     'TITLE': 'API de Gestão de Produtos',  # Aula 20: Titulo exibido no Swagger 
     'DESCRIPTION': 'Documentacao interativa da API desenvolvida no curso',  # Aula 20: Descricao da API 
     'VERSION': '1.0.0',  # Aula 20: Versao da API 
     'SERVE_INCLUDE_SCHEMA': False,  # Aula 20: Oculta a rota do esquema bruto na interface do Swagger 
-}  # Aula 20: Fechamento do dicionario SPECTACULAR_SETTINGS 
+}  # Aula 20: Fechamento do dicionario SPECTACULAR_SETTINGS
