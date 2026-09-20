@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # --- REGISTRO DE DEPENDÊNCIAS E APPS (AULA 17) ---
-    'rest_framework',   # Alteração: Adicionado Django REST Framework conforme Aula 17
-    'drf_spectacular',  # Alteração: Adicionado DRF Spectacular para documentação OpenAPI conforme Aula 17
-    'django_filters',   # Alteração: Adicionado Django Filter conforme Aula 17
-    'produtos',         # Alteração: Adicionado o App 'produtos' criado na Aula 17
+    'rest_framework',   # Aula 17: Adicionado Django REST Framework 
+    'drf_spectacular',  # Aula 17: Adicionado DRF Spectacular para documentação OpenAPI 
+    'django_filters',   # Aula 17: Adicionado Django Filter 
+    'produtos',         # Aula 17: Adicionado o App 'produtos' 
 ]
 
 MIDDLEWARE = [
@@ -109,8 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
 # --- INTERNACIONALIZAÇÃO E FUSO HORÁRIO (AULA 17) ---
-LANGUAGE_CODE = 'pt-br'            # Alteração: Idioma ajustado para Português do Brasil conforme Aula 17
-TIME_ZONE = 'America/Sao_Paulo'    # Alteração: Fuso horário ajustado para o Brasil conforme Aula 17
+LANGUAGE_CODE = 'pt-br'            # Aula 17: Idioma ajustado para Português do Brasil 
+TIME_ZONE = 'America/Sao_Paulo'    # Aula 17: Fuso horário ajustado para o Brasil 
 
 USE_I18N = True
 
@@ -131,3 +131,18 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# --- CONFIGURAÇÕES DO DRF, SWAGGER E FILTROS (AULA 20) ---
+REST_FRAMEWORK = {  # Aula 20: Dicionario de configuracoes do REST Framework 
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # Aula 20: Define o gerador de esquema OpenAPI 
+    'DEFAULT_FILTER_BACKENDS': (  # Aula 20: Tupla de backends de filtro padrao 
+        'django_filters.rest_framework.DjangoFilterBackend',  # Alteração: Habilita suporte ao django-filter 
+    ),  # Aula 20: Fechamento da tupla de backends 
+}  # Aula 20: Fechamento do dicionario REST_FRAMEWORK 
+
+SPECTACULAR_SETTINGS = {  # Aula 20: Dicionario de informacoes da documentacao Swagger 
+    'TITLE': 'API de Gestão de Produtos',  # Aula 20: Titulo exibido no Swagger 
+    'DESCRIPTION': 'Documentacao interativa da API desenvolvida no curso',  # Aula 20: Descricao da API 
+    'VERSION': '1.0.0',  # Aula 20: Versao da API 
+    'SERVE_INCLUDE_SCHEMA': False,  # Aula 20: Oculta a rota do esquema bruto na interface do Swagger 
+}  # Aula 20: Fechamento do dicionario SPECTACULAR_SETTINGS 
